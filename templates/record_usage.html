@@ -1,0 +1,47 @@
+<!-- inventory/templates/inventory/record_usage.html -->
+{% extends 'base.html' %} {% block title %}Record Usage - MySyara Inventory{% endblock %} {% block content %}
+<style>
+    .container {
+        padding-top: 100px;
+        padding-left: 20px;
+    }
+
+    .form-control {
+        width: 100%;
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        box-sizing: border-box;
+    }
+
+    .btn-primary {
+        background-color: #007bff;
+        color: #fff;
+        padding: 10px 20px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+    }
+
+    .form-group {
+        margin-bottom: 20px;
+    }
+</style>
+
+<div class="container">
+    <h1>Record Usage</h1>
+    <form method="post">
+        {% csrf_token %}
+        <div class="form-group">
+            <label for="id_Mechanic">Mechanic:</label> {{ form.mechanic }}
+        </div>
+        <div class="form-group">
+            <label for="id_quantity_used">Quantity Used:</label> {{ form.quantity_used }}
+        </div>
+        <div class="form-group">
+            <label for="id_model">Model:</label> {{ form.model }}
+        </div>
+        <input type="submit" value="Save" class="btn-primary">
+    </form>
+</div>
+{% endblock %}

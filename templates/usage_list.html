@@ -1,0 +1,79 @@
+<!-- inventory/templates/inventory/usage_list.html -->
+{% extends 'base.html' %}
+{% block title %}Today Usage List - MySyara Inventory{% endblock %}
+{% block content %}
+<style>
+    .container {
+            padding-top: 100px; 
+            padding-left: 20px;
+            padding-right: 20px;
+        }
+        .table-content {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 25px;
+        font-size: 12pt;
+        border-radius: 5px 5px 0 0;
+        overflow: hidden;
+    }
+    .table-content thead tr{
+        background-color: #EC008C;
+        color: white;
+        text-align: left;
+        font-weight: bold;
+        font-size: 15pt;
+    }    
+    .table-content tbody tr{
+        border-bottom: 1px solid #9b7373dd;
+    }
+    .table-content tbody tr:nth-of-type(even){
+        border-bottom: 1px solid #a17070;
+    } 
+    .print-button {
+    position: relative;
+}   
+.btn-primary {
+            background-color: rgb(124, 10, 10);
+            color: #fff;
+            margin: 3px;
+            padding: 5px 10px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+</style>
+<body>
+    <div class="container">
+    <h1>Usage List</h1>
+    <table class="table-content">
+        <thead>
+            <tr>
+                <th>Sr. No.</th>
+                <th>Item</th>
+                <th>Part No.</th>
+                <th>Mechanic</th>
+                <th>Quantity Used</th>
+                <th>Model</th>
+                <th>Usage Date</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for today_usage in today_usages %}
+            <tr>
+                <td>{{ forloop.counter }}. {{ item }}</td>
+                <td>{{ today_usage.inventory_item.description }}</td>
+                <td>{{ today_usage.inventory_item.part_number }}</td>
+                <td>{{ today_usage.mechanic }}</td>
+                <td>{{ today_usage.quantity_used }}</td>
+                <td>{{ today_usage.model }}</td>
+                <td>{{ today_usage.usage_date }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <div class="print-button">
+        <button class = "button btn-primary" onclick="window.print()">Print</button>
+    </div>
+</div>
+</body>
+{% endblock %}

@@ -1,0 +1,161 @@
+<!-- inventory/templates/inventory/inventory_list.html -->
+{% extends 'base.html' %} {% block title %}Inventory List - MySyara Inventory{% endblock %} {% block content %}
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+
+<style>
+    .container {
+        padding-top: 100px;
+        padding-left: 20px;
+        padding-right: 20px;
+    }
+
+    .table-content {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 25px;
+        font-size: 12pt;
+        min-width: 400px;
+        border-radius: 5px 5px 0 0;
+        overflow: hidden;
+    }
+
+    .table-content thead tr {
+        background-color: #EC008C;
+        color: white;
+        text-align: left;
+        font-weight: bold;
+        font-size: 15pt;
+    }
+
+    .table-content tbody tr {
+        border-bottom: 1px solid #9b7373dd;
+    }
+
+    .table-content tbody tr:nth-of-type(even) {
+        border-bottom: 1px solid #a17070;
+    }
+
+    .kebab-menu {
+        position: relative;
+        display: block;
+        z-index: 1000;
+    }
+
+    .kebab-button {
+        background-color: transparent;
+        border: none;
+        cursor: pointer;
+        padding: 0;
+        width: 24px;
+        height: 24px;
+    }
+
+    .kebab-button::after {
+        font-size: 24px;
+        color: black;
+    }
+
+    .kebab-content {
+        display: none;
+        position: absolute;
+        background-color: white;
+        box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2);
+    }
+
+    .kebab-menu:hover .kebab-content {
+        display: block;
+    }
+
+    .kebab-content a,
+    .kebab-content form {
+        display: block;
+        padding: 12px 12px;
+        text-decoration: none;
+        color: black;
+    }
+
+    .kebab-content a:hover {
+        background-color: pink;
+    }
+
+    .btn-primary {
+        background-color: #007bff;
+        color: #fff;
+        margin: 3px;
+        padding: 5px 10px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+    }
+
+    .btn-delete {
+        background-color: rgb(124, 10, 10);
+        color: #fff;
+        margin: 3px;
+        padding: 5px 10px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+    }
+
+    .button.btn-primary:hover {
+        background-color: pink;
+        color: black;
+    }
+
+    .button-container {
+        display: flex;
+        align-items: center;
+    }
+</style>
+
+<body>
+    <div class="container">
+        <h1>Inventory List</h1>
+        <a href="{% url 'add_inventory_item' %}">Add Inventory Item</a>
+        <table class="table-content">
+            <thead>
+                <tr>
+                    <th>Sr. No.</th>
+                    <th>Part No.</th>
+                    <th>Description</th>
+                    <th>Brand</th>
+                    <th>Quantity</th>
+                    <th>Price</th>
+                    <th>Actions</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for inventory_item in inventory_items %}
+                <tr>
+                    <td>{{ forloop.counter }}. {{ item }}</td>
+                    <td>{{ inventory_item.part_number }}</td>
+                    <td>{{ inventory_item.description }}</td>
+                    <td>{{ inventory_item.brand }}</td>
+                    <td>{{ inventory_item.quantity }}</td>
+                    <td>$ {{ inventory_item.price }}</td>
+                    <td class="button-container">
+                        <form action="{% url 'record_usage' inventory_item_id=inventory_item.pk %}" method="post">
+                            {% csrf_token %}
+                            <input type="hidden" name="inventory_item_id" value="{{ inventory_item.pk }}">
+                            <button class="button btn-primary" type="submit" value="Add">Add</button>
+                        </form>
+                        <div class="kebab-menu">
+                            <button class="kebab-button"><i class="fas fa-ellipsis-v"></i></button>
+                            <div class="kebab-content">
+                                <a href="{% url 'edit_inventory_item' inventory_item.pk %}" style="border-color: #EC008C; border-radius: 3mm;">Edit</a>
+                                <form action="{% url 'delete_inventory_item' inventory_item.pk %}" method="post">
+                                    {% csrf_token %}
+                                    <button class="button btn-delete" type="submit">Delete</button>
+                                </form>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</body>
+{% endblock %}

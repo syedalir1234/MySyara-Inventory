@@ -1,0 +1,13 @@
+<!-- inventory/templates/inventory/delete_inventory_item.html -->
+{% extends 'base.html' %}
+{% block title %}Delete Inventory Item - MySyara Inventory{% endblock %}
+{% block content %}
+<body>
+    <h1>Delete Inventory Item</h1>
+    <p>Are you sure you want to delete "{{ inventory_item }}"?</p>
+    <form action="{% url 'delete_inventory_item' inventory_item.pk %}" method="post">
+        {% csrf_token %}
+        <input type="submit" value="Delete">
+    </form>
+</body>
+{% endblock %}
